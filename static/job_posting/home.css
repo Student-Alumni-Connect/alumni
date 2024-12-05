@@ -1,0 +1,46 @@
+.icon {
+    color: #324b7e !important;
+    margin-right: 8px !important;
+}
+
+.heading {
+    color: rgba(0, 0, 0, 0.5) !important;
+    margin-bottom: 7px;
+    font-size: 13px;
+}
+
+.detail {
+    color: rgb(0, 0, 0);
+    font-size: 15px;
+}
+
+.type {
+    padding: 4px 7px;
+    width: max-content;
+    background-color: #324b7e;
+    border-radius: 15px;
+    color: rgb(255, 255, 255);
+}
+
+#more p {
+    margin-bottom: 4px;
+    white-space: pre-wrap;
+}
+
+#more .colapse:not(.show) {
+    display: block;
+    height: 1.5rem;
+    overflow: hidden;
+}
+
+#more .colapse.collapsing {
+    height: 1.5rem;
+}
+
+#more a.collapsed::after {
+    content: 'Read More';
+}
+
+#more a:not(.collapsed)::after {
+    content: 'Read Less';
+}

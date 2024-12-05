@@ -6,7 +6,7 @@ app_name = 'jobs'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('post/', views.post, name='post'),
-    path('filter/', views.filter, name='filter'),
-    re_path(r'^del/(?P<i_id>[0-9]+)/$', views.del1, name='del1'),
+    path('post/', views.post_opportunity, name='post'),
+    path('filter/', views.filter_jobs, name='filter'),
+    re_path(r'^del/(?P<job_id>[0-9]+)/$', views.delete_job, name='delete'),
 ]

@@ -6,56 +6,7 @@
 {% endblock %}
 
 {% block css %}
-    <style type="text/css">
-
-        .icon {
-            color: #324b7e !important;
-            margin-right: 8px !important;
-        }
-
-        .heading {
-            color: rgba(0, 0, 0, 0.5) !important;
-            margin-bottom: 7px;
-            font-size: 13px;
-        }
-
-        .detail {
-            color: rgb(0, 0, 0);
-            font-size: 15px;
-        }
-
-        .type {
-            padding: 4px 7px;
-            width: max-content;
-            background-color: #324b7e;
-            border-radius: 15px;
-            color: rgb(255, 255, 255);
-        }
-
-        #more p {
-            margin-bottom: 4px;
-            white-space: pre-wrap;
-        }
-
-        #more .colapse:not(.show) {
-            display: block;
-            height: 1.5rem;
-            overflow: hidden;
-        }
-
-        #more .colapse.collapsing {
-            height: 1.5rem;
-        }
-
-        #more a.collapsed::after {
-            content: 'Read More';
-        }
-
-        #more a:not(.collapsed)::after {
-            content: 'Read Less';
-        }
-
-    </style>
+    <link rel="stylesheet" href="{% static 'job_posting/home.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -76,25 +27,25 @@
                         {% if viewname != 'filter' %}
                             <form name="filter" action="{% url 'jobs:filter' %}" method="post">{% csrf_token %}
                                 <div class="row justify-content-center m-3">
-                                    <select class='form-control col-4 mx-2' name="position" id="position1">
+                                    <select class='form-control col-4 mx-2' name="job_role" id="job_role">
                                         <option selected value="all">Any Position</option>
-                                        <option value="Software Developer">Software Developer</option>
-                                        <option value="Data Engineer">Data Engineer</option>
                                         <option value="Android">Android</option>
-                                        <option value="IoS">IoS</option>
-                                        <option value="Software Engineer">Software Engineer</option>
-                                        <option value="Data Analytics">Data Analytics</option>
-                                        <option value="Data Science">Data Science</option>
-                                        <option value="Machine Learning">Machine Learning</option>
+                                        <option value="Blockchain">Blockchain</option>  
                                         <option value="Business Development">Business Development</option>
-                                        <option value="Research">Research</option>
-                                        <option value="Blockchain">Blockchain</option>
-                                        <option value="UI/UX Designer">UI/UX Designer</option>
+                                        <option value="Data Analytics">Data Analytics</option>
+                                        <option value="Data Engineer">Data Engineer</option>
+                                        <option value="Data Science">Data Science</option>
+                                        <option value="IoS">IoS</option>
+                                        <option value="Machine Learning">Machine Learning</option>
                                         <option value="Marketing and Sales">Marketing and Sales</option>
+                                        <option value="Research">Research</option>
+                                        <option value="Software Developer">Software Developer</option>
+                                        <option value="Software Engineer">Software Engineer</option>
+                                        <option value="Ui/Ux Designer">UI/UX Designer</option>
                                         <option value="Other">Other</option>
                                     </select>
 
-                                    <select class='form-control col-4 mx-2' name="type" id="type1">
+                                    <select class='form-control col-4 mx-2' name="job_type" id="job_type">
                                         <option selected value="all">Any Role</option>
                                         <option value="Full Time">Full Time</option>
                                         <option value="Internship">Internship</option>
@@ -138,17 +89,17 @@
             {% endfor %}
 
 
-            {% if ls1 %}
+            {% if job_list %}
                 <div class="row">
-                    {% for i,j in ls1 %}
+                    {% for i in job_list %}
                         <div class="col-lg-6 px-5">
                             <div class="card mb-5 shadow-lg">
                                 <div class="card-header bg-primary font-open-sans">
                                     <div class="row">
 
                                         <div class="col mx-auto text-left">
-                                            <a style="color:white; font-size: 25px">{{ i.position|title }}</a><br>
-                                            <a style="color: rgba(255, 255, 255, 0.7); font-size: 18px;">{{ i.company|title }}</a>
+                                            <a style="color:white; font-size: 25px">{{ i.job_role }}</a><br>
+                                            <a style="color: rgba(255, 255, 255, 0.7); font-size: 18px;">{{ i.org_name }}</a>
                                         </div>
 
                                         <div class="col-4 mx-auto text-right">
@@ -156,7 +107,7 @@
                                                 Apply <i class="fa fa-link"></i>
                                             </a>
                                             {% if request.user.is_superuser %}
-                                                <a href="{% url 'jobs:del1' i.id %}" class="btn btn-danger mt-1"
+                                                <a href="{% url 'jobs:delete' i.id %}" class="btn btn-danger mt-1"
                                                    role="button">Remove <i class="fa fa-trash-alt text-white"></i></a>
                                             {% endif %}
                                         </div>
@@ -170,12 +121,12 @@
                                         <div class="row mb-4">
                                             <div class="col">
                                                 <i class="fa fa-map-marker-alt" aria-hidden="true"></i>
-                                                <a class="detail">{{ i.type }} in {{ i.location|title }}</a>
+                                                <a class="detail">{{ i.job_type }} in {{ i.location }}</a>
                                             </div>
                                         </div>
 
                                         <div class="row mb-4">
-                                            <div class="col-md-4 mb-2">
+                                            <div class="col-md-6 mb-2">
                                                 <div class="heading">
                                                     <i class="fa fa-money-bill" aria-hidden="true"></i><a>Stipend</a>
                                                 </div>
@@ -187,7 +138,7 @@
                                             </div>
 
                                             {% if i.exp_req %}
-                                                <div class="col-md-4 mb-2">
+                                                <div class="col-md-6 mb-2">
                                                     <div class="heading">
                                                         <i class="fa fa-briefcase"></i><a>Exp Required</a>
                                                     </div>
@@ -218,23 +169,23 @@
                                             {% if i.tenure %}
                                                 <div class="col-md-4 mb-2">
                                                     <div class="heading">
-                                                        <i class="fa fa-calendar"></i><a>Tenure</a>
+                                                        <i class="fa fa-solid fa-clock"></i><a>Tenure</a>
                                                     </div>
                                                     <a class="detail">{{ i.tenure }} Months</a>
                                                 </div>
                                             {% endif %}
                                         </div>
 
-                                        {% if i.desc %}
+                                        {% if i.job_desc %}
                                             <div class="row mb-4">
                                                 <div class="col">
                                                     <div class="heading">
-                                                        <i class="icon icofont-notepad"></i><a>Description</a>
+                                                        <i class="fas fa-book-open"></i><a>Description</a>
                                                     </div>
                                                     <div id="more">
                                                         <p class="detail colapse"
                                                            id="collapseExample{{ forloop.counter }}"
-                                                           aria-exapanded="false">{{ i.desc }}</p>
+                                                           aria-exapanded="false">{{ i.job_desc }}</p>
                                                         <a role="button" class="collapsed" data-toggle="collapse"
                                                            href="#collapseExample{{ forloop.counter }}"
                                                            aria-expanded="false" aria-controls="collapseExample"
@@ -258,22 +209,22 @@
             {% endif %}
 
 
-            {% if ls2.has_other_pages %}
+            {% if current_page.has_other_pages %}
                 <ul class="pagination" style="justify-content: center;">
-                    {% if ls2.has_previous %}
-                        <li class="m-1"><a href="?page={{ ls2.previous_page_number }}">&laquo;</a></li>
+                    {% if current_page.has_previous %}
+                        <li class="m-1"><a href="?page={{ current_page.previous_page_number }}">&laquo;</a></li>
                     {% else %}
                         <li class="disabled m-1"><span>&laquo;</span></li>
                     {% endif %}
-                    {% for i in ls2.paginator.page_range %}
-                        {% if ls2.number == i %}
+                    {% for i in current_page.paginator.page_range %}
+                        {% if current_page.number == i %}
                             <li class="active m-1"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
                         {% else %}
                             <li class="m-1"><a href="?page={{ i }}">{{ i }}</a></li>
                         {% endif %}
                     {% endfor %}
-                    {% if ls2.has_next %}
-                        <li class="m-1"><a href="?page={{ ls2.next_page_number }}">&raquo;</a></li>
+                    {% if current_page.has_next %}
+                        <li class="m-1"><a href="?page={{ current_page.next_page_number }}">&raquo;</a></li>
                     {% else %}
                         <li class="disabled m-1"><span>&raquo;</span></li>
                     {% endif %}

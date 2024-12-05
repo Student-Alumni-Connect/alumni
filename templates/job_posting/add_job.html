@@ -1,0 +1,185 @@
+{% extends 'globals/base.html' %}
+{% load static %}
+
+{% block title %}
+    Post
+{% endblock %}
+
+{% block css %}
+    <style type="text/css">
+        .detail {
+            font-size: 12px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% include 'globals/navbar.html' %}
+    {% include 'globals/theme.html' with heading='Add Job' %}
+    <br>
+    <br>
+
+    <section style="padding:0 0 4rem;">
+        <div class="container text-center p-0">
+            <div class="row">
+                <div class="col">
+                    <a href="{% url 'jobs:index' %}" class="btn btn-dark btn-outline-primary m-3 text-white">
+                        <i class="fa fa-arrow-left mr-2" style="color:inherit !important"
+                           aria-hidden="true"></i>
+                        Go back to job opportunities
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container text-left mt-5 pt-4 shadow-lg rounded">
+            <form name="new_post" id="new_post" action="{% url 'jobs:post' %}" method="POST">{% csrf_token %}
+
+                <div class="row m-4">
+                    <div class="col text-center">
+                        <span class="mx-auto text-uppercase h3"><strong>Post a new job here !</strong></span><br>
+                    </div>
+                </div>
+
+                <div class="row m-4">
+                    <div class="mx-auto col-12 col-sm-6 mb-3" id="dropdown2">
+                        <label for="job_type">Job Type :</label>
+                        <select required class="form-control" name="job_type" id="job_type">
+                            <option disabled selected value> -- Select job type --</option>
+                            <option value="Internship">Internship</option>
+                            <option value="Full Time">Full Time</option>
+                            <option value="Both">Both</option>
+                        </select>
+                    </div>
+
+                    <div class="mx-auto col-12 col-sm-6 mb-3" id="dropdown1">
+                        <label for="job_role">Job Role :</label>
+                        <select required class='form-control' name="job_role" id="job_role" onchange="print_alert(this.value)">
+                            <option disabled selected value> -- Select job role --</option>
+                            <option value="Android">Android</option>
+                            <option value="Blockchain">Blockchain</option>  
+                            <option value="Business Development">Business Development</option>
+                            <option value="Data Analytics">Data Analytics</option>
+                            <option value="Data Engineer">Data Engineer</option>
+                            <option value="Data Science">Data Science</option>
+                            <option value="IoS">IoS</option>
+                            <option value="Machine Learning">Machine Learning</option>
+                            <option value="Marketing and Sales">Marketing and Sales</option>
+                            <option value="Research">Research</option>
+                            <option value="Software Developer">Software Developer</option>
+                            <option value="Software Engineer">Software Engineer</option>
+                            <option value="Ui/Ux Designer">UI/UX Designer</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="ml-auto col-sm-4" >
+                        <label for="other_jobrole" id="joblabel" style="display: none;">Specify the job role :</label>
+                        <input required class="form-control" type="text" name="other_jobrole" id="other_jobrole" style="display: none;" >
+                    </div>
+                </div>
+
+                <div class="row m-4">
+                    <div class="mx-auto col-sm-6">
+                        <label for="org_name">Company :</label>
+                        <input required class="form-control" type="text" name="org_name" id='org_name'>
+                    </div>
+
+                    <div class="mx-auto col-sm-6">
+                        <label for="location">Location :</label>
+                        <input required class="form-control" type="text" name="location" id='location'>
+                    </div>
+                </div>
+
+                <div class="row m-4">
+                    <div class="mx-auto col-sm-12">
+                        <label for="link">Link to apply :</label>
+                        <input required class="form-control" type=text name="link" id='link'>
+                    </div>
+                </div>
+
+                <div class="row m-4">
+                    <div class="mx-auto col-sm-12">
+                        <label for="job_desc">Job description <a class="detail">(Optional)</a>:</label>
+                        <textarea class="form-control" rows="4" cols="50" name="job_desc" form="new_post" id='job_desc'></textarea>
+                    </div>
+                </div>
+
+                <div class="row mx-4 my-2">
+                    <div class="mx-auto mb-2 col-lg-4 col-md-6">
+                        <label for="stipend">Stipend <a class="detail">(Per Month)</a>:</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" style="border-radius: 0.25rem 0 0 0.25rem;">₹</span>
+                            <input type="number" class="form-control" name="stipend" id='stipend' aria-label="Amount(to the nearest rupee)">
+                            <span class="input-group-text" style="border-radius: 0 0.25rem 0.25rem 0; background-color: transparent;">.00</span>
+                        </div>
+                        <!-- <label for="stipend">Stipend <a class="detail">(Per Month)</a>:</label>
+                        <input class="form-control" type="number" name="stipend" id='stipend'> -->
+                    </div>
+
+                    <div class="mx-auto mb-2 col-lg-4 col-md-6">
+                        <label for="tenure">Tenure <a class="detail">(In Months)</a>:</label>
+                        <input class="form-control" type="number" name="tenure" id='tenure'>
+                    </div>
+
+                    <div class="mx-auto mb-2 col-lg-4 col-md-6">
+                        <label for="exp_req">Min. Experience <a class="detail">(In years)</a>:</label>
+                        <input class="form-control" type="number" name="exp_req" id='exp_req'>
+                    </div>
+                </div>
+
+                <div class="row mx-4 my-2">
+                    <div class="mx-auto mb-3 col-sm-6">
+                        <label for="last_date">Last Date to apply:</label>
+                        <input class="form-control" type="date" name="last_date" id='last_date'>
+                    </div>
+
+                    <div class="mx-auto mb-3 col-sm-6">
+                        <label for="join_date">Joining date:</label>
+                        <input class="form-control" type="date" name="join_date" id='join_date'>
+                    </div>
+                </div>
+
+                <div class="row p-4">
+                    <div class="mx-auto text-center col-4">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    
+                </div>
+
+            </form>
+        </div>
+    </section>
+{% block javascript %}
+    <script type="text/javascript">
+        
+
+        function print_alert(val)
+        {
+            document.getElementById("joblabel").style.display = 'none';
+            document.getElementById("other_jobrole").style.display = 'none';
+            document.getElementById("other_jobrole").required = false;
+
+            if(val == "Other")
+            {
+                document.getElementById("dropdown1").className = "mx-auto col-sm-4 mb-3";
+                document.getElementById("dropdown2").className = "mx-auto col-sm-4 mb-3";
+                document.getElementById("joblabel").style.display = 'block';
+                document.getElementById("other_jobrole").style.display = 'block';
+                document.getElementById("other_jobrole").required = true;
+            }
+            else
+            {
+                document.getElementById("dropdown1").className = "mx-auto col-12 col-sm-6 mb-3";
+                document.getElementById("dropdown2").className = "mx-auto col-12 col-sm-6 mb-3";
+                document.getElementById("joblabel").style.display = 'none';
+                document.getElementById("other_jobrole").style.display = 'none';
+                document.getElementById("other_jobrole").required = false;
+            }
+        }
+
+    </script>
+{% endblock javascript %}
+
+
+    {% include 'globals/footer.html' %}
+{% endblock %}
