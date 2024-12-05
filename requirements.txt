@@ -34,7 +34,7 @@ et-xmlfile==1.1.0
 google-auth==1.6.3
 html5lib==1.0b10
 httplib2==0.12.3
-idna==2.8
+idna==3.7
 importlib-metadata==1.3.0
 isort==4.2.15
 kombu==5.3.5
