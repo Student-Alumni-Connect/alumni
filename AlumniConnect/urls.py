@@ -63,6 +63,7 @@ urlpatterns += [
     path('constitution/', views.constitution, name='constitution'),
     path('blogs/', include('applications.blog.urls')),
     #path('', views.index, name='home'),
+    path('check-email-exists/', views.check_email_exists, name='check_email_exists'),
 ]
 
 if settings.DEBUG:

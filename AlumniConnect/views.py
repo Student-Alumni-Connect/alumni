@@ -5,7 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse,JsonResponse
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -275,3 +275,9 @@ def change_password(request):
 
 def constitution(request):
     return render(request, 'AlumniConnect/constitution.html')
+
+def check_email_exists(request):
+    email = request.GET.get('email')
+    # print(email)
+    exists = User.objects.filter(email=email).exists()
+    return JsonResponse({'exists': exists})
