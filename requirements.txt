@@ -60,7 +60,7 @@ requests==2.21.0
 requests-oauthlib==1.2.0
 rsa==4.9
 six==1.12.0
-sqlparse==0.2.4
+sqlparse==0.5.0
 typing_extensions==4.9.0
 tzdata==2023.4
 uritemplate==3.0.0
